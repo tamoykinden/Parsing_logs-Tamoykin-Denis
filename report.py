@@ -1,5 +1,6 @@
 import json
 from typing import List, Dict
+from tabulate import tabulate
 
 def read_logs(file_paths: List[str]) -> List[Dict]:
     """Функция для чтения логов"""
@@ -22,3 +23,36 @@ def filter_by_date(logs:List[Dict], date) -> List[Dict]:
     else:
         return logs
 
+
+def gen_rep(file_paths: List[str], report_type: str, date):
+    """Функция для генерации отчета лог-файлов"""
+    logs = read_logs(file_paths)
+    filt_logs = filter_by_date(logs, date)
+
+    end_stats = {}
+    for log in filt_logs:
+        url = log.get('url') # Получаю url из отфильтрованного по времени лога
+        time = log.get('response_time') # Получаю время
+
+
+        if url not in end_stats:
+            end_stats[url]= {
+                'count': 0, #Количество запросов
+                'total_time': 0 # Время ответа
+            }
+
+        #Обновление данных
+        end_stats[url]['count'] +=1
+        end_stats[url]['total_time']+=time
+
+    #Таблица
+    rep_table = []
+
+    for endpoint, data in end_stats.items():
+        #Рассчитываю среднее время ответа
+        avg_time = data['total_time']/data['count']
+
+        rep_table.append([endpoint,data['count'], avg_time])
+
+    if rep_table:
+        return tabulate(rep_table, headers=['handler', 'total', 'avg_response_time'], tablefmt='pipe')
