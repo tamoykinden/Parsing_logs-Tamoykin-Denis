@@ -5,13 +5,13 @@
 ## Примеры запуска
 
 ### 1.  Запуск одного файла
-![alt text](image1.png)
+![alt text](images/image1.png)
 
 ### 2. Запуск нескольких файлов
-![alt text](image2.png)
+![alt text](images/image2.png)
 
 ### 3. Запуск с фильтрацией по дате
-![alt text](image3.png)
+![alt text](images/image3.png)
 
 ### 4. Покрытие кода тестами (90%)
-![alt text](image4.png)
+![alt text](images/image4.png)
