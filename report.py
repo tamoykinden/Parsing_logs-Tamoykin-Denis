@@ -17,9 +17,11 @@ def read_logs(file_paths: List[str]) -> List[Dict]:
 def filter_by_date(logs:List[Dict], date) -> List[Dict]:
     """Функция для указания даты (доп)"""
     if date:
+        filter = []
         for log in logs:
             if log.get('@timestamp', '').startswith(date):
-                return log
+                filter.append(log)
+                return filter
     else:
         return logs
 
