@@ -8,22 +8,20 @@ def read_logs(file_paths: List[str]) -> List[Dict]:
     logs = []
     #Прохожу по переданным путям и открываем через контекстный менеджер
     for path in file_paths:
-        with open(path, 'r') as f:
-            for line in f:
+        try:
+            with open(path, 'r') as f:
+                for line in f:
                 #Десериализую каждую строку и добавляю в список logs
-                logs.append(json.loads(line))
+                    logs.append(json.loads(line))
+        except FileNotFoundError:
+            print(f"Файл {path} не найден")
     return logs
 
 def filter_by_date(logs:List[Dict], date) -> List[Dict]:
     """Функция для указания даты (доп)"""
-    if date:
-        filter = []
-        for log in logs:
-            if log.get('@timestamp', '').startswith(date):
-                filter.append(log)
-                return filter
-    else:
+    if not date:
         return logs
+    return [log for log in logs if log.get("@timestamp", "").startswith(date)]
 
 
 def gen_rep(file_paths: List[str], report_type: str, date):
