@@ -48,11 +48,11 @@ def gen_rep(file_paths: List[str], report_type: str, date):
     #Таблица
     rep_table = []
 
-    for endpoint, data in end_stats.items():
+    for index, (endpoint, data) in enumerate(end_stats.items(), start=1):
         #Рассчитываю среднее время ответа
         avg_time = data['total_time']/data['count']
-
-        rep_table.append([endpoint,data['count'], avg_time])
+        #Добавляю индекс
+        rep_table.append([index,endpoint,data['count'], avg_time])
 
     if rep_table:
-        return tabulate(rep_table, headers=['handler', 'total', 'avg_response_time'], tablefmt='pipe')
+        return tabulate(rep_table, headers=['id','handler', 'total', 'avg_response_time'], tablefmt='pipe')
